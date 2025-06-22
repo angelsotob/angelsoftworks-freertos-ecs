@@ -22,7 +22,7 @@
 *.la
 *.lo
 
-# Shared objects (inc. Windows DLLs)
+# Shared objects (including Windows DLLs)
 *.dll
 *.so
 *.so.*
@@ -34,6 +34,7 @@
 *.app
 *.i*86
 *.x86_64
+*.bin
 *.hex
 
 # Debug files
@@ -41,6 +42,7 @@
 *.su
 *.idb
 *.pdb
+*.lst
 
 # Kernel Module Compile Results
 *.mod*
@@ -50,3 +52,30 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Backup files
+*~
+*.bak
+
+# Logs
+*.log
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Build directories
+/build/
+/out/
+/dist/
+
+# FreeRTOS specific
+*.launch
