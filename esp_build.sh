@@ -54,6 +54,7 @@ case "$ACTION" in
     clean)
         echo -e "${GREEN}Running full clean...${NC}"
         idf.py fullclean
+        rm -rf build/
         ;;
     help|-h|--help)
         show_help
