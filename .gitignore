@@ -79,3 +79,7 @@ Makefile
 
 # FreeRTOS specific
 *.launch
+
+# Documentation directories
+/docs/
+
