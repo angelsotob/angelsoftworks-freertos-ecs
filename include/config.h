@@ -32,6 +32,7 @@
 #define LOW_TIME_MS 500  // LED off-time in milliseconds.
 #define MS_100 100       // Macro for 100 milliseconds.
 #define MS_1000 1000     // Macro for 1000 milliseconds.
+#define MS_5000 5000     // Macro for 5000 milliseconds.
 /** @} */
 
 /** @name Sensor Thresholds

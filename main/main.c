@@ -18,6 +18,7 @@
 #include "tasks/blink_task.h"
 #include "tasks/control_task.h"
 #include "tasks/sensors_task.h"
+#include "tasks/watchdog_task.h"
 #include "tasks/logger_task.h"
 #include "utils/utils.h"
 
@@ -25,7 +26,7 @@ extern void init_gpio(void);
 extern void wifi_init_sta(void);
 extern void sync_time(void);
 
-static const char *TAG = "sensor";
+static const char *TAG = "main";
 
 // Private function declarations
 static void create_tasks(void);
@@ -53,6 +54,9 @@ static void create_tasks(void)
 
     if (xTaskCreate(&logger_task, "logger_task", 2048, NULL, 5, NULL) != pdPASS)
         ESP_LOGE(TAG, "Failed to create logger_task");
+
+    if (xTaskCreate(&watchdog_task, "watchdog_task", 2048, NULL, 5, NULL) != pdPASS)
+        ESP_LOGE(TAG, "Failed to create watchdog_task");
 }
 
 /**
@@ -60,7 +64,7 @@ static void create_tasks(void)
  */
 int app_main(void)
 {
-    srand((unsigned) time(NULL));
+    srand((unsigned)time(NULL));
     init_gpio();
     wifi_init_sta();
     sync_time();

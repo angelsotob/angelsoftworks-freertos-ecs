@@ -30,14 +30,14 @@ void watchdog_task(void *pvParameter)
 
     while (1)
     {
-        vTaskDelay(pdMS_TO_TICKS(5000)); // Check each 5 s
+        vTaskDelay(pdMS_TO_TICKS(MS_5000)); // Check each 5 s
 
         if (!g_task_alive_flags.sensor_alive ||
             !g_task_alive_flags.control_alive ||
             !g_task_alive_flags.logger_alive)
         {
             ESP_LOGE(TAG, "Watchdog detected a dead task. Restarting system.");
-            vTaskDelay(pdMS_TO_TICKS(1000)); // Time to log
+            vTaskDelay(pdMS_TO_TICKS(MS_1000)); // Time to log
             esp_restart();
         }
 
