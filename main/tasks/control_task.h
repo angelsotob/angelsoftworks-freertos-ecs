@@ -14,6 +14,7 @@
 #define CONTROL_TASK_H
 
 #include "../include/config.h"
+#include "../include/system_state.h"
 #include "sensors.h"
 #include "../utils/utils.h"
 #include "freertos/FreeRTOS.h"

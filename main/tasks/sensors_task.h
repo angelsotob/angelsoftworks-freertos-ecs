@@ -13,6 +13,7 @@
 #define SENSORS_TASK_H
 
 #include "../include/config.h"
+#include "../include/system_state.h"
 #include "../utils/utils.h"
 #include "../drivers/sensors.h"
 #include <stdio.h>
@@ -28,7 +29,7 @@
  * @brief FreeRTOS task that periodically reads sensor values.
  *
  * This task simulates temperature and humidity readings and logs them
- * every 100 ms using both printf and ESP_LOGI.
+ * every 100 ms using ESP_LOGI.
  *
  * @param[in] pvParameter Unused. Can be NULL.
  */

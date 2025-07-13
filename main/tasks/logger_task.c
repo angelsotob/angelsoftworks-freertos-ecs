@@ -60,11 +60,7 @@ void logger_task(void *pvParameter)
                 alarm = "OFF";
             }
 
-            printf("%s: Temperature sensor measures: %.2f ºC\n", timestamp_str, systemData.last_sensors.temperature);
-            printf("%s: Humidity sensor measures: %.1f %%HR\n", timestamp_str, systemData.last_sensors.humidity);
-            ESP_LOGI(TAG, "[%s] Temperature: %.2f ºC | Humidity: %.1f %%", timestamp_str, systemData.last_sensors.temperature, systemData.last_sensors.humidity);
-
-            ESP_LOGI("logger", "[%s] LOG: Temp: %.2f ºC | Hum: %.1f %% | Alarm: %s",
+            ESP_LOGI(TAG, "[%s] LOG: Temp: %.2f ºC | Hum: %.1f %% | Alarm: %s",
                      timestamp_str, systemData.last_sensors.temperature, systemData.last_sensors.humidity, alarm);
         }
 

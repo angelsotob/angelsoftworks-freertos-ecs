@@ -14,6 +14,7 @@
  */
 
 #include "../include/config.h"
+#include "../include/system_state.h"
 #include "network/wifi.h"
 #include "tasks/blink_task.h"
 #include "tasks/control_task.h"
@@ -73,7 +74,7 @@ int app_main(void)
 
     if (xQueueSensors == NULL)
     {
-        printf("xQueueSensors was not created correctly");
+        ESP_LOGE(TAG, "xQueueSensors was not created correctly");
         return -1;
     }
 
@@ -81,7 +82,7 @@ int app_main(void)
 
     if (xQueueLogger == NULL)
     {
-        printf("xQueueLogger was not created correctly");
+        ESP_LOGE(TAG, "xQueueLogger was not created correctly");
         return -1;
     }
 

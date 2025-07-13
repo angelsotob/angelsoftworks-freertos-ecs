@@ -23,6 +23,7 @@
 #define LOGGER_TASK_H
 
 #include "../include/config.h"
+#include "../include/system_state.h"
 #include "sensors.h"
 #include "../utils/utils.h"
 #include "freertos/FreeRTOS.h"
@@ -31,11 +32,6 @@
 #include "esp_log.h"
 #include <time.h>
 #include "watchdog_task.h"
-
-typedef struct{
-    sensors_data_t last_sensors;
-    bool alarm_triggered;
-} system_state_t;
 
 
 /**
