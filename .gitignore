@@ -83,3 +83,6 @@ Makefile
 # Documentation directories
 /docs/
 
+# Wifi Credentials
+/include/wifi_config.h
+

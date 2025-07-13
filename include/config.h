@@ -13,35 +13,31 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-/**
- * @brief GPIO pin connected to the LED.
+#include "wifi_config.h"
+
+/** @name GPIO Configuration
+ *  GPIO-related pin assignments and levels
+ *  @{
  */
-#define BLINK_GPIO GPIO_NUM_2
+#define BLINK_GPIO GPIO_NUM_2   ///< GPIO pin number 2.
+#define CONTROL_GPIO GPIO_NUM_4 ///< GPIO pin number 4.
+#define GPIO_HIGH 1 // Digital HIGH level (3.3V)
+#define GPIO_LOW  0 // Digital LOW level (0V)
+/** @} */
 
-/**
- * @brief Logic level to turn the LED on.
+/** @name Time Configuration
+ *  @{
  */
-#define GPIO_HIGH 1
+#define HIGH_TIME_MS 500 // LED on-time in milliseconds.
+#define LOW_TIME_MS 500  // LED off-time in milliseconds.
+#define MS_100 100       // Macro for 100 milliseconds.
+/** @} */
 
-/**
- * @brief Logic level to turn the LED off.
+/** @name Sensor Thresholds
+ *  @{
  */
-#define GPIO_LOW 0
-
-/**
- * @brief LED on-time in milliseconds.
- */
-#define HIGH_TIME_MS 500
-
-/**
- * @brief LED off-time in milliseconds.
- */
-#define LOW_TIME_MS 500
-
-#define MS_100 100
-
-#define WIFI_SSID      "2_4_wifi"
-#define WIFI_PASS      "1234567909765421"
+#define TEMP_THRESHOLD 25.0 // Trigger control if temperature > 25.0 ºC
+#define HUM_THRESHOLD 50.0  // Trigger control if humidity < 50.0 %
+/** @} */
 
 #endif // CONFIG_H
-

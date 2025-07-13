@@ -1,4 +1,19 @@
 idf_component_register(
-    SRCS "main.c" "wifi.c"
-    INCLUDE_DIRS "../include"
+    SRCS
+        main.c
+        app/gpio.c
+        app/time_sync.c
+        tasks/blink_task.c
+        tasks/sensors_task.c
+        tasks/control_task.c
+        drivers/sensors.c
+        network/wifi.c
+        utils/utils.c
+    INCLUDE_DIRS
+        ../include
+        app
+        tasks
+        drivers
+        network
+        utils
 )

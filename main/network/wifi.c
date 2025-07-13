@@ -1,33 +1,53 @@
 /**
  * @file wifi.c
- * @brief 
+ * @brief Wi-Fi initialization and connection management for ESP32 (STA mode).
  *
+ * Implements the connection logic for ESP32 as a Wi-Fi Station (STA).
+ * Handles events such as start, disconnect, and IP acquisition.
  *
  * @author Ángel Soto Boullosa
  * @date 2025-06-22
  * @version 0.0.1
  */
 
-#include "../include/wifi.h"
+#include "wifi.h"
 
 #define WIFI_CONNECTED_BIT BIT0
 
 static EventGroupHandle_t wifi_event_group;
 static const char *TAG = "wifi";
 
-static void event_handler(void* arg, esp_event_base_t event_base,
-                          int32_t event_id, void* event_data)
+static void event_handler(void *arg, esp_event_base_t event_base,
+                          int32_t event_id, void *event_data)
 {
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
+    // STA has started, attempt to connect
+    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
+    {
         esp_wifi_connect();
-    } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+    }
+    // STA got disconnected, retry connection
+    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
+    {
         esp_wifi_connect();
         ESP_LOGI(TAG, "Reconnecting to WiFi...");
-    } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
+    }
+    // STA successfully obtained an IP address
+    else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
+    {
         xEventGroupSetBits(wifi_event_group, WIFI_CONNECTED_BIT);
     }
 }
 
+/**
+ * @brief Initializes the Wi-Fi in station (STA) mode.
+ *
+ * This function sets up the ESP32 as a Wi-Fi station (client),
+ * connects it to the access point defined by WIFI_SSID and WIFI_PASS,
+ * and waits until a successful connection is established.
+ *
+ * It also initializes the NVS flash and registers the required
+ * Wi-Fi event handlers.
+ */
 void wifi_init_sta(void)
 {
     wifi_event_group = xEventGroupCreate();
@@ -66,7 +86,8 @@ void wifi_init_sta(void)
     ESP_ERROR_CHECK(esp_wifi_start());
 
     ESP_LOGI(TAG, "WiFi initialization completed");
-
+    
+    // Wait indefinitely until Wi-Fi is connected (IP assigned)
     xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED_BIT, false, true, portMAX_DELAY);
     ESP_LOGI(TAG, "Connected to WiFi");
 }
