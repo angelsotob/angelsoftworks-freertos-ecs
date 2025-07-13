@@ -14,6 +14,7 @@
 
 static const char *TAG = "sensor";
 extern QueueHandle_t xQueueSensors;
+extern QueueHandle_t xQueueLogger;
 
 /**
  * @brief FreeRTOS task that logs fake sensor readings every 100 ms.
@@ -23,9 +24,9 @@ extern QueueHandle_t xQueueSensors;
 void sensor_task(void *pvParameter)
 {
     (void)pvParameter; // To avoid unused parameter warning
-    
+    system_state_t state;
     char timestamp_str[20];
-    
+
     while (1)
     {
         sensors_data_t data;
@@ -37,17 +38,20 @@ void sensor_task(void *pvParameter)
         {
             /* Send an unsigned long. Wait for 10 ticks for space to become
                available if necessary. */
-            if (xQueueSend(xQueueSensors,
-                           (void *)&data,
-                           pdMS_TO_TICKS(10)))
+            if (xQueueSend(xQueueSensors, (void *)&data, pdMS_TO_TICKS(10)) != pdPASS)
             {
-                /* Failed to post the message, even after 10 ticks. */
+                ESP_LOGW(TAG, "Failed to send to xQueueSensors");
             }
         }
 
-        printf("%s: Temperature sensor measures: %.2f ºC\n", timestamp_str, data.temperature);
-        printf("%s: Humidity sensor measures: %.1f %%HR\n", timestamp_str, data.humidity);
-        ESP_LOGI(TAG, "[%s] Temperature: %.2f ºC | Humidity: %.1f %%", timestamp_str, data.temperature, data.humidity);
+        if (xQueueLogger != 0)
+        {
+            state.last_sensors = data;
+            state.alarm_triggered = false;
+            /* Send an unsigned long. Wait for 10 ticks for space to become
+               available if necessary. */
+            xQueueOverwrite(xQueueLogger, (void *)&state);
+        }
 
         vTaskDelay(pdMS_TO_TICKS(MS_100));
     }

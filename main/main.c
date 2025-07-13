@@ -18,6 +18,7 @@
 #include "tasks/blink_task.h"
 #include "tasks/control_task.h"
 #include "tasks/sensors_task.h"
+#include "tasks/logger_task.h"
 #include "utils/utils.h"
 
 extern void init_gpio(void);
@@ -30,6 +31,7 @@ static const char *TAG = "sensor";
 static void create_tasks(void);
 
 QueueHandle_t xQueueSensors;
+QueueHandle_t xQueueLogger;
 
 /**
  * @brief Creates all FreeRTOS tasks in the application.
@@ -48,6 +50,9 @@ static void create_tasks(void)
 
     if (xTaskCreate(&control_task, "control_task", 2048, NULL, 5, NULL) != pdPASS)
         ESP_LOGE(TAG, "Failed to create control_task");
+
+    if (xTaskCreate(&logger_task, "logger_task", 2048, NULL, 5, NULL) != pdPASS)
+        ESP_LOGE(TAG, "Failed to create logger_task");
 }
 
 /**
@@ -60,12 +65,19 @@ int app_main(void)
     wifi_init_sta();
     sync_time();
 
-    /* Create a queue capable of containing 10 unsigned long values. */
     xQueueSensors = xQueueCreate(10, sizeof(sensors_data_t));
 
     if (xQueueSensors == NULL)
     {
-        printf("xQueue1 was not created correctly");
+        printf("xQueueSensors was not created correctly");
+        return -1;
+    }
+
+    xQueueLogger = xQueueCreate(1, sizeof(system_state_t));
+
+    if (xQueueLogger == NULL)
+    {
+        printf("xQueueLogger was not created correctly");
         return -1;
     }
 

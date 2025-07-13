@@ -12,8 +12,8 @@
 
 #include "control_task.h"
 
-sensors_data_t received;
 extern QueueHandle_t xQueueSensors;
+extern QueueHandle_t xQueueLogger;
 
 /**
  * @brief FreeRTOS task that controls a GPIO based on environmental thresholds.
@@ -30,28 +30,37 @@ extern QueueHandle_t xQueueSensors;
 void control_task(void *pvParameter)
 {
     (void)pvParameter;
-
+    sensors_data_t received;
+    system_state_t state;
     char timestamp_str[20];
 
     while (1)
     {
-        if ((xQueueSensors != NULL) && 
+        if ((xQueueSensors != NULL) &&
             (xQueueReceive(xQueueSensors, &received, pdMS_TO_TICKS(10))))
         {
+            state.last_sensors = received;
+
             if (received.temperature > TEMP_THRESHOLD || received.humidity < HUM_THRESHOLD)
             {
                 gpio_set_level(CONTROL_GPIO, GPIO_HIGH);
                 get_timestamp_str(timestamp_str, sizeof(timestamp_str));
-                ESP_LOGW("control", "[%s] ALARM TRIGGERED! Temp: %.2f ºC | Hum: %.1f %%", 
-                         timestamp_str, received.temperature, received.humidity);
+                state.alarm_triggered = true;
             }
             else
             {
                 gpio_set_level(CONTROL_GPIO, GPIO_LOW);
+                state.alarm_triggered = false;
+            }
+
+            if (xQueueLogger != 0)
+            {
+                /* Send an unsigned long. Wait for 10 ticks for space to become
+                   available if necessary. */
+                xQueueOverwrite(xQueueLogger, &state);
             }
         }
 
         vTaskDelay(pdMS_TO_TICKS(MS_100));
     }
 }
-
