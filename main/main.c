@@ -29,6 +29,8 @@ static const char *TAG = "sensor";
 // Private function declarations
 static void create_tasks(void);
 
+QueueHandle_t xQueueSensors;
+
 /**
  * @brief Creates all FreeRTOS tasks in the application.
  *
@@ -51,11 +53,23 @@ static void create_tasks(void)
 /**
  * @brief Main application entry point.
  */
-void app_main(void)
+int app_main(void)
 {
     srand((unsigned) time(NULL));
     init_gpio();
     wifi_init_sta();
     sync_time();
+
+    /* Create a queue capable of containing 10 unsigned long values. */
+    xQueueSensors = xQueueCreate(10, sizeof(sensors_data_t));
+
+    if (xQueueSensors == NULL)
+    {
+        printf("xQueue1 was not created correctly");
+        return -1;
+    }
+
     create_tasks();
+
+    return 0;
 }

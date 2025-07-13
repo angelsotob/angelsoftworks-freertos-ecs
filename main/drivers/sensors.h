@@ -16,6 +16,11 @@
 
 #include <stdlib.h>
 
+typedef struct {
+    float temperature;
+    float humidity;
+} sensors_data_t;
+
 /**
  * @brief Generates a fake temperature value.
  *
