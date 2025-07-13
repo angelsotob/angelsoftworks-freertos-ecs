@@ -33,15 +33,14 @@
 #include <time.h>
 #include "watchdog_task.h"
 
-
 /**
- * @brief Task that controls a GPIO pin based on environmental conditions.
+ * @brief FreeRTOS task that logs sensor data and alarm state.
  *
- * If the temperature exceeds TEMP_THRESHOLD or humidity drops below
- * HUM_THRESHOLD, the CONTROL_GPIO is set to GPIO_HIGH; otherwise,
- * it is set to GPIO_LOW.
+ * This task runs in an infinite loop, receiving system status updates
+ * from a queue and logging the temperature, humidity, and alarm status.
+ * It does not control any GPIOs.
  *
- * @param pvParameter Unused FreeRTOS task parameter.
+ * @param[in] pvParameter Unused. Can be NULL.
  */
 void logger_task(void *pvParameter);
 

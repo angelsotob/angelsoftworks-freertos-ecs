@@ -19,7 +19,8 @@
 /**
  * @brief Struct holding the latest sensor values and alarm flag.
  */
-typedef struct {
+typedef struct
+{
     sensors_data_t last_sensors;
     bool alarm_triggered;
 } system_state_t;

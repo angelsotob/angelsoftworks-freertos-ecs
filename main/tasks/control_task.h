@@ -2,7 +2,7 @@
  * @file control_task.h
  * @brief Control task header for managing GPIO based on sensor readings.
  *
- * This file declares the task responsible for controlling a GPIO pin 
+ * This file declares the task responsible for controlling a GPIO pin
  * based on temperature and humidity values retrieved from simulated sensors.
  *
  * @author Ángel Soto Boullosa
@@ -24,7 +24,6 @@
 #include <time.h>
 #include "logger_task.h"
 #include "watchdog_task.h"
-
 
 /**
  * @brief Task that controls a GPIO pin based on environmental conditions.

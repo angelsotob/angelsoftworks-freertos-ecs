@@ -21,8 +21,8 @@
  */
 #define BLINK_GPIO GPIO_NUM_2   ///< GPIO pin number 2.
 #define CONTROL_GPIO GPIO_NUM_4 ///< GPIO pin number 4.
-#define GPIO_HIGH 1 // Digital HIGH level (3.3V)
-#define GPIO_LOW  0 // Digital LOW level (0V)
+#define GPIO_HIGH 1             // Digital HIGH level (3.3V)
+#define GPIO_LOW 0              // Digital LOW level (0V)
 /** @} */
 
 /** @name Time Configuration

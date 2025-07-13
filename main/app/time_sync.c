@@ -42,7 +42,8 @@ void sync_time(void)
         time(&now);
         localtime_r(&now, &timeinfo);
 
-        if (timeinfo.tm_year >= (2023 - 1900)) {
+        if (timeinfo.tm_year >= (2023 - 1900))
+        {
             break;
         }
 

@@ -16,7 +16,14 @@
 
 #include <stdlib.h>
 
-typedef struct {
+/**
+ * @brief Structure containing the data measured by the sensors.
+ *
+ * This structure groups the temperature and humidity values
+ * obtained from the system's sensors.
+ */
+typedef struct
+{
     float temperature;
     float humidity;
 } sensors_data_t;

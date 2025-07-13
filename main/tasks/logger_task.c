@@ -25,16 +25,13 @@ static const char *TAG = "logger";
 extern QueueHandle_t xQueueLogger;
 
 /**
- * @brief FreeRTOS task that controls a GPIO based on environmental thresholds.
+ * @brief FreeRTOS task that logs sensor data and alarm state.
  *
- * This task runs in an infinite loop, simulating the reading of temperature
- * and humidity sensors. If the temperature exceeds TEMP_THRESHOLD or
- * the humidity falls below HUM_THRESHOLD, it sets the CONTROL_GPIO
- * pin to HIGH. Otherwise, it sets the pin to LOW.
+ * This task runs in an infinite loop, receiving system status updates
+ * from a queue and logging the temperature, humidity, and alarm status.
+ * It does not control any GPIOs.
  *
- * It also logs the timestamp and sensor values to the console.
- *
- * @param[in] pvParameter Unused task parameter. Can be NULL.
+ * @param[in] pvParameter Unused. Can be NULL.
  */
 void logger_task(void *pvParameter)
 {

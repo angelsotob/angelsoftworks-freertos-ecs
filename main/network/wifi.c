@@ -86,7 +86,7 @@ void wifi_init_sta(void)
     ESP_ERROR_CHECK(esp_wifi_start());
 
     ESP_LOGI(TAG, "WiFi initialization completed");
-    
+
     // Wait indefinitely until Wi-Fi is connected (IP assigned)
     xEventGroupWaitBits(wifi_event_group, WIFI_CONNECTED_BIT, false, true, portMAX_DELAY);
     ESP_LOGI(TAG, "Connected to WiFi");

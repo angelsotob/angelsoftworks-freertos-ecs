@@ -19,7 +19,7 @@
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include <time.h>
-#include "watchdog_task.h" 
+#include "watchdog_task.h"
 
 /**
  * @brief FreeRTOS task that toggles an LED GPIO.
