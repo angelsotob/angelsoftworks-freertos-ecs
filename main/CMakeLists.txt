@@ -7,6 +7,7 @@ idf_component_register(
         tasks/sensors_task.c
         tasks/control_task.c
         tasks/logger_task.c
+        tasks/watchdog_task.c
         drivers/sensors.c
         network/wifi.c
         utils/utils.c

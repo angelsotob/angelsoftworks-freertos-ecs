@@ -22,6 +22,7 @@
 #include "freertos/task.h"
 #include <time.h>
 #include "logger_task.h"
+#include "watchdog_task.h"
 
 /**
  * @brief FreeRTOS task that periodically reads sensor values.

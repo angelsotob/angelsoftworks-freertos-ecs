@@ -29,6 +29,7 @@ void sensor_task(void *pvParameter)
 
     while (1)
     {
+        g_task_alive_flags.sensor_alive = true;
         sensors_data_t data;
         data.temperature = get_fake_temperature();
         data.humidity = get_fake_humidity();

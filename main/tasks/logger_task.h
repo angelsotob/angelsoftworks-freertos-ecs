@@ -1,6 +1,18 @@
 /**
  * @file logger_task.h
- * @brief 
+ * @brief Logger task interface for centralized system logging in FreeRTOS.
+ *
+ * Declares the `logger_task` function and the `system_state_t` structure,
+ * used for centralized logging of sensor data and alarm states.
+ *
+ * The logger receives data from other tasks (e.g., sensor and control)
+ * via `xQueueLogger`. It prints formatted logs to UART and the ESP-IDF
+ * logging system, including timestamps and environmental status.
+ *
+ * The queue should be created with `xQueueCreate(1, sizeof(system_state_t))`
+ * and updated using `xQueueOverwrite()` by producers.
+ *
+ * This task is intended to run at low priority with 1-second periodic logging.
  *
  * @author Ángel Soto Boullosa
  * @date 2025-06-22
@@ -18,6 +30,7 @@
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include <time.h>
+#include "watchdog_task.h"
 
 typedef struct{
     sensors_data_t last_sensors;

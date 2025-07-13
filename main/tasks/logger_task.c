@@ -1,6 +1,17 @@
 /**
  * @file logger_task.c
- * @brief
+ * @brief Implementation of the system logger task for ESP32 FreeRTOS.
+ *
+ * This module defines a FreeRTOS task that receives system status updates
+ * through a queue (`xQueueLogger`) and logs them periodically over UART
+ * and ESP-IDF's logging system. It centralizes logging from both the
+ * sensor and control tasks, providing formatted output with timestamps.
+ *
+ * The logger task expects to receive a `system_state_t` structure containing:
+ * - The latest temperature and humidity readings.
+ * - The current alarm state based on thresholds.
+ *
+ * The task runs continuously with a delay of 1 second between log entries.
  *
  * @author Ángel Soto Boullosa
  * @date 2025-06-22
@@ -33,6 +44,7 @@ void logger_task(void *pvParameter)
 
     while (1)
     {
+        g_task_alive_flags.logger_alive = true;
         if ((xQueueLogger != NULL) &&
             (xQueueReceive(xQueueLogger, &systemData, pdMS_TO_TICKS(10))))
         {

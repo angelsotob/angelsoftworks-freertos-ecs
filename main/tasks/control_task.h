@@ -22,6 +22,7 @@
 #include "esp_log.h"
 #include <time.h>
 #include "logger_task.h"
+#include "watchdog_task.h"
 
 
 /**

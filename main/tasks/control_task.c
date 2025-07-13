@@ -36,6 +36,7 @@ void control_task(void *pvParameter)
 
     while (1)
     {
+        g_task_alive_flags.control_alive = true;
         if ((xQueueSensors != NULL) &&
             (xQueueReceive(xQueueSensors, &received, pdMS_TO_TICKS(10))))
         {
