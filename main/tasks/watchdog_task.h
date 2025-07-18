@@ -27,26 +27,12 @@
 
 #include <stdbool.h>
 #include "../include/config.h"
+#include "../include/common_types.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "driver/gpio.h"
 #include "esp_log.h"
 #include <time.h>
-
-/**
- * @brief Structure to store the alive status of system tasks.
- *
- * This structure contains flags indicating whether key tasks
- * in the system are currently running or responsive.
- */
-typedef struct
-{
-    bool sensor_alive;
-    bool control_alive;
-    bool logger_alive;
-} task_alive_flags_t;
-
-extern task_alive_flags_t g_task_alive_flags;
 
 /**
  * @brief FreeRTOS task that monitors the health of system tasks.

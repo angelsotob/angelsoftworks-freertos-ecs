@@ -17,18 +17,6 @@
 #include <stdlib.h>
 
 /**
- * @brief Structure containing the data measured by the sensors.
- *
- * This structure groups the temperature and humidity values
- * obtained from the system's sensors.
- */
-typedef struct
-{
-    float temperature;
-    float humidity;
-} sensors_data_t;
-
-/**
  * @brief Generates a fake temperature value.
  *
  * @return Simulated temperature in degrees Celsius between 20.00 and 29.99.

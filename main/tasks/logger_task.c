@@ -23,6 +23,7 @@
 static const char *TAG = "logger";
 
 extern QueueHandle_t xQueueLogger;
+extern task_alive_flags_t g_task_alive_flags; 
 
 /**
  * @brief FreeRTOS task that logs sensor data and alarm state.
@@ -48,7 +49,7 @@ void logger_task(void *pvParameter)
             get_timestamp_str(timestamp_str, sizeof(timestamp_str));
 
             const char *alarm;
-            if (systemData.alarm_triggered)
+            if (systemData.alarm)
             {
                 alarm = "ON";
             }
@@ -58,7 +59,7 @@ void logger_task(void *pvParameter)
             }
 
             ESP_LOGI(TAG, "[%s] LOG: Temp: %.2f ºC | Hum: %.1f %% | Alarm: %s",
-                     timestamp_str, systemData.last_sensors.temperature, systemData.last_sensors.humidity, alarm);
+                     timestamp_str, systemData.sensors.temperature, systemData.sensors.humidity, alarm);
         }
 
         vTaskDelay(pdMS_TO_TICKS(MS_1000));

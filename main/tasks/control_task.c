@@ -14,6 +14,7 @@
 
 extern QueueHandle_t xQueueSensors;
 extern QueueHandle_t xQueueLogger;
+extern task_alive_flags_t g_task_alive_flags; 
 
 /**
  * @brief FreeRTOS task that controls a GPIO based on environmental thresholds.
@@ -40,18 +41,18 @@ void control_task(void *pvParameter)
         if ((xQueueSensors != NULL) &&
             (xQueueReceive(xQueueSensors, &received, pdMS_TO_TICKS(10))))
         {
-            state.last_sensors = received;
+            state.sensors = received;
 
             if (received.temperature > TEMP_THRESHOLD || received.humidity < HUM_THRESHOLD)
             {
                 gpio_set_level(CONTROL_GPIO, GPIO_HIGH);
                 get_timestamp_str(timestamp_str, sizeof(timestamp_str));
-                state.alarm_triggered = true;
+                state.alarm = true;
             }
             else
             {
                 gpio_set_level(CONTROL_GPIO, GPIO_LOW);
-                state.alarm_triggered = false;
+                state.alarm = false;
             }
 
             if (xQueueLogger != 0)

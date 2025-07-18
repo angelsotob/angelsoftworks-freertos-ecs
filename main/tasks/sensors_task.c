@@ -15,6 +15,7 @@
 static const char *TAG = "sensor";
 extern QueueHandle_t xQueueSensors;
 extern QueueHandle_t xQueueLogger;
+extern task_alive_flags_t g_task_alive_flags; 
 
 /**
  * @brief FreeRTOS task that logs fake sensor readings every 100 ms.
@@ -47,8 +48,8 @@ void sensor_task(void *pvParameter)
 
         if (xQueueLogger != 0)
         {
-            state.last_sensors = data;
-            state.alarm_triggered = false;
+            state.sensors = data;
+            state.alarm = false;
             /* Send an unsigned long. Wait for 10 ticks for space to become
                available if necessary. */
             xQueueOverwrite(xQueueLogger, (void *)&state);

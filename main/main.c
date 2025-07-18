@@ -14,7 +14,7 @@
  */
 
 #include "../include/config.h"
-#include "../include/system_state.h"
+#include "../include/common_types.h"
 #include "network/wifi.h"
 #include "tasks/blink_task.h"
 #include "tasks/control_task.h"

@@ -13,7 +13,7 @@
 #define SENSORS_TASK_H
 
 #include "../include/config.h"
-#include "../include/system_state.h"
+#include "../include/common_types.h"
 #include "../utils/utils.h"
 #include "../drivers/sensors.h"
 #include <stdio.h>
