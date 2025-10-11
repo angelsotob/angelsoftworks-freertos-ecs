@@ -9,6 +9,8 @@ idf_component_register(
         tasks/logger_task.c
         tasks/watchdog_task.c
         drivers/sensors.c
+        drivers/i2c.c
+        drivers/aht_20.c
         network/wifi.c
         utils/utils.c
     INCLUDE_DIRS
@@ -18,4 +20,11 @@ idf_component_register(
         drivers
         network
         utils
+    REQUIRES
+        driver
+        freertos
+        nvs_flash
+        esp_wifi
+        esp_event
+        esp_netif
 )
