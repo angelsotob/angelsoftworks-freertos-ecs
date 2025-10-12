@@ -24,6 +24,9 @@
 #include <time.h>
 #include "logger_task.h"
 #include "watchdog_task.h"
+#include "i2c.h"       // Custom I2C driver
+#include "aht_20.h"    // Custom AHT20 driver
+#include "bmp280.h"    // Custom AHT20 driver
 
 /**
  * @brief FreeRTOS task that periodically reads sensor values.

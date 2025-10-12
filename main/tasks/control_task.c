@@ -43,7 +43,7 @@ void control_task(void *pvParameter)
         {
             state.sensors = received;
 
-            if (received.temperature > TEMP_THRESHOLD || received.humidity < HUM_THRESHOLD)
+            if (received.temperature < TEMP_MIN_THRESHOLD || received.temperature > TEMP_MAX_THRESHOLD || received.humidity < HUM_MIN_THRESHOLD || received.humidity > HUM_MAX_THRESHOLD )
             {
                 gpio_set_level(CONTROL_GPIO, GPIO_HIGH);
                 get_timestamp_str(timestamp_str, sizeof(timestamp_str));

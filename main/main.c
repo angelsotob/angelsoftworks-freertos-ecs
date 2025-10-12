@@ -44,8 +44,8 @@ QueueHandle_t xQueueLogger;
  */
 static void create_tasks(void)
 {
-    if (xTaskCreate(&blink_task, "blink_task", 1024, NULL, 5, NULL) != pdPASS)
-        ESP_LOGE(TAG, "Failed to create blink_task");
+    //if (xTaskCreate(&blink_task, "blink_task", 1024, NULL, 5, NULL) != pdPASS)
+    //    ESP_LOGE(TAG, "Failed to create blink_task");
 
     if (xTaskCreate(&sensor_task, "sensor_task", 2048, NULL, 5, NULL) != pdPASS)
         ESP_LOGE(TAG, "Failed to create sensor_task");

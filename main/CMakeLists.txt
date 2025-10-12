@@ -11,6 +11,7 @@ idf_component_register(
         drivers/sensors.c
         drivers/i2c.c
         drivers/aht_20.c
+        drivers/bmp280.c
         network/wifi.c
         utils/utils.c
     INCLUDE_DIRS
