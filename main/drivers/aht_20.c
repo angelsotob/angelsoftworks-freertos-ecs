@@ -46,6 +46,27 @@ esp_err_t aht20_init(void)
     return ESP_OK;
 }
 
+/**
+ * @brief Performs a single measurement on the AHT20 sensor and retrieves temperature and humidity.
+ *
+ * This function triggers a new measurement by sending the `0xAC 0x33 0x00` command over I2C.
+ * After a typical conversion time (~80 ms), it reads 6 bytes of data and converts the raw values
+ * into temperature (°C) and relative humidity (%RH) according to the AHT20 datasheet.
+ *
+ * The measurement formulae are:
+ *  - RH(%) = (raw_h / 2²⁰) × 100  
+ *  - T(°C) = (raw_t / 2²⁰) × 200 − 50
+ *
+ * @note The function waits internally for the sensor conversion to complete (≈ 85 ms total).
+ *       To improve throughput, you can offload the delay or measure asynchronously.
+ *
+ * @param[out] temperature_c Pointer to store temperature in °C (nullable).
+ * @param[out] humidity_rh   Pointer to store relative humidity in %RH (nullable).
+ *
+ * @retval ESP_OK            Measurement completed successfully.
+ * @retval ESP_FAIL          Communication or data read failure.
+ * @retval ESP_ERR_TIMEOUT   I2C transaction timeout.
+ */
 esp_err_t aht20_read(float *temperature_c, float *humidity_rh)
 {
     const uint8_t measure_cmd[3] = {0xAC, 0x33, 0x00};
