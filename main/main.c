@@ -22,6 +22,8 @@
 #include "tasks/watchdog_task.h"
 #include "tasks/logger_task.h"
 #include "utils/utils.h"
+#include "app/fs_spiffs.h"
+#include "app/log_to_file.h"
 
 extern void init_gpio(void);
 extern void wifi_init_sta(void);
@@ -53,7 +55,7 @@ static void create_tasks(void)
     if (xTaskCreate(&control_task, "control_task", 2048, NULL, 5, NULL) != pdPASS)
         ESP_LOGE(TAG, "Failed to create control_task");
 
-    if (xTaskCreate(&logger_task, "logger_task", 2048, NULL, 5, NULL) != pdPASS)
+    if (xTaskCreate(&logger_task, "logger_task", 4096, NULL, 5, NULL) != pdPASS)
         ESP_LOGE(TAG, "Failed to create logger_task");
 
     if (xTaskCreate(&watchdog_task, "watchdog_task", 2048, NULL, 5, NULL) != pdPASS)
@@ -63,19 +65,21 @@ static void create_tasks(void)
 /**
  * @brief Main application entry point.
  */
-int app_main(void)
+void app_main(void)
 {
     srand((unsigned)time(NULL));
     init_gpio();
     wifi_init_sta();
     sync_time();
 
+    ESP_ERROR_CHECK(fs_spiffs_init());
+    log_to_file_init();
+
     xQueueSensors = xQueueCreate(10, sizeof(sensors_data_t));
 
     if (xQueueSensors == NULL)
     {
         ESP_LOGE(TAG, "xQueueSensors was not created correctly");
-        return -1;
     }
 
     xQueueLogger = xQueueCreate(1, sizeof(system_state_t));
@@ -83,10 +87,7 @@ int app_main(void)
     if (xQueueLogger == NULL)
     {
         ESP_LOGE(TAG, "xQueueLogger was not created correctly");
-        return -1;
     }
 
     create_tasks();
-
-    return 0;
 }

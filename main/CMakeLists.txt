@@ -14,6 +14,8 @@ idf_component_register(
         drivers/bmp280.c
         network/wifi.c
         utils/utils.c
+        app/fs_spiffs.c 
+        app/log_to_file.c
     INCLUDE_DIRS
         ../include
         app
@@ -28,4 +30,6 @@ idf_component_register(
         esp_wifi
         esp_event
         esp_netif
+        spiffs
+
 )
