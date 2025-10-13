@@ -26,6 +26,7 @@ typedef struct
 {
     float temperature; /**< Temperature value in degrees Celsius */
     float humidity;    /**< Humidity percentage (0–100%) */
+    float pressure_hpa;  /**< Pressure in hPa (from BMP280) */
 } sensors_data_t;
 
 /**

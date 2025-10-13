@@ -58,8 +58,13 @@ void logger_task(void *pvParameter)
                 alarm = "OFF";
             }
 
-            ESP_LOGI(TAG, "[%s] LOG: Temp: %.2f ºC | Hum: %.1f %% | Alarm: %s",
-                     timestamp_str, systemData.sensors.temperature, systemData.sensors.humidity, alarm);
+            ESP_LOGI(TAG,
+                     "[%s] LOG: Temp: %.2f °C | Hum: %.1f %% | Press: %.2f hPa | Alarm: %s",
+                     timestamp_str,
+                     systemData.sensors.temperature,
+                     systemData.sensors.humidity,
+                     systemData.sensors.pressure_hpa,
+                     alarm);
         }
 
         vTaskDelay(pdMS_TO_TICKS(MS_1000));

@@ -38,8 +38,10 @@
 /** @name Sensor Thresholds
  *  @{
  */
-#define TEMP_THRESHOLD 25.0 // Trigger control if temperature > 25.0 ºC
-#define HUM_THRESHOLD 50.0  // Trigger control if humidity < 50.0 %
+#define TEMP_MAX_THRESHOLD 26.0 // Trigger control if temperature < 22.0 ºC
+#define TEMP_MIN_THRESHOLD 22.0 // Trigger control if temperature > 26.0 ºC
+#define HUM_MIN_THRESHOLD 30.0  // Trigger control if humidity < 30.0 %
+#define HUM_MAX_THRESHOLD 65.0  // Trigger control if humidity > 65.0 %
 /** @} */
 
 #endif // CONFIG_H
