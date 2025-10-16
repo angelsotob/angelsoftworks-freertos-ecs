@@ -11,3 +11,5 @@ include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 ## @brief Define the project using the given name.
 ## @note Must be called after including project.cmake.
 project(${PROJECT_NAME})
+
+spiffs_create_partition_image(spiffs spiffs FLASH_IN_PROJECT)

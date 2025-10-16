@@ -24,6 +24,11 @@
 #include "aht_20.h"    // AHT20 driver
 #include "bmp280.h"    // BMP280 driver (pressure) - log only
 
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// NEW: expose live readings to the web UI via /api/data
+#include "data_snapshot.h"   // data_snapshot_update(...)
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 static const char *TAG = "sensor";
 
 extern QueueHandle_t xQueueSensors;
@@ -110,6 +115,19 @@ void sensor_task(void *pvParameter)
         }
 
         get_timestamp_str(timestamp_str, sizeof(timestamp_str));
+
+        // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        // NEW: update the live data snapshot for /api/data
+        // For now we set alarm_on=false here; the real alarm flag can be
+        // updated from control_task via another data_snapshot_update(...)
+        data_snapshot_update(
+            data.temperature,
+            data.humidity,
+            data.pressure_hpa,
+            false /* alarm_on placeholder; control_task should update */,
+            0     /* let the module timestamp with esp_timer_get_time() */
+        );
+        // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
         // Always publish the latest valid data (new or previous)
         if (xQueueSensors != NULL)

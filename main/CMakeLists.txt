@@ -16,6 +16,9 @@ idf_component_register(
         utils/utils.c
         app/fs_spiffs.c 
         app/log_to_file.c
+        app/web_server.c
+        app/data_snapshot.c
+
     INCLUDE_DIRS
         ../include
         app
@@ -31,5 +34,7 @@ idf_component_register(
         esp_event
         esp_netif
         spiffs
-
+        esp_http_server    
+        esp_timer    
+        esp_app_format
 )

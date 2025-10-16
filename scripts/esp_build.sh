@@ -45,11 +45,11 @@ case "$ACTION" in
         ;;
     flash)
         echo -e "${GREEN}Building and flashing to /dev/ttyUSB0...${NC}"
-        idf.py build && idf.py -p /dev/ttyUSB0 flash
+        idf.py -p /dev/ttyUSB0 flash
         ;;
     monitor)
         echo -e "${GREEN}Building, flashing, and opening monitor on /dev/ttyUSB0...${NC}"
-        idf.py build && idf.py -p /dev/ttyUSB0 flash monitor
+        idf.py -p /dev/ttyUSB0 monitor
         ;;
     clean)
         echo -e "${GREEN}Running full clean...${NC}"

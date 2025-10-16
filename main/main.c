@@ -24,6 +24,7 @@
 #include "utils/utils.h"
 #include "app/fs_spiffs.h"
 #include "app/log_to_file.h"
+#include "app/web_server.h"
 
 extern void init_gpio(void);
 extern void wifi_init_sta(void);
@@ -37,13 +38,6 @@ static void create_tasks(void);
 QueueHandle_t xQueueSensors;
 QueueHandle_t xQueueLogger;
 
-/**
- * @brief Creates all FreeRTOS tasks in the application.
- *
- * This function creates the main application tasks: `blink_task`,
- * `sensor_task`, and `control_task`. If any of the tasks fail to
- * be created, an error is logged using `ESP_LOGE`.
- */
 static void create_tasks(void)
 {
     //if (xTaskCreate(&blink_task, "blink_task", 1024, NULL, 5, NULL) != pdPASS)
@@ -55,7 +49,7 @@ static void create_tasks(void)
     if (xTaskCreate(&control_task, "control_task", 2048, NULL, 5, NULL) != pdPASS)
         ESP_LOGE(TAG, "Failed to create control_task");
 
-    if (xTaskCreate(&logger_task, "logger_task", 4096, NULL, 5, NULL) != pdPASS)
+    if (xTaskCreate(&logger_task, "logger_task", 4096, NULL, 5, NULL) != pdPASS) // subiste el stack del logger
         ESP_LOGE(TAG, "Failed to create logger_task");
 
     if (xTaskCreate(&watchdog_task, "watchdog_task", 2048, NULL, 5, NULL) != pdPASS)
@@ -65,7 +59,7 @@ static void create_tasks(void)
 /**
  * @brief Main application entry point.
  */
-void app_main(void)
+int app_main(void)
 {
     srand((unsigned)time(NULL));
     init_gpio();
@@ -75,19 +69,22 @@ void app_main(void)
     ESP_ERROR_CHECK(fs_spiffs_init());
     log_to_file_init();
 
-    xQueueSensors = xQueueCreate(10, sizeof(sensors_data_t));
+        // === Start Web UI (HTTP server) ===
+    ESP_ERROR_CHECK(web_server_start());
 
-    if (xQueueSensors == NULL)
-    {
+    xQueueSensors = xQueueCreate(10, sizeof(sensors_data_t));
+    if (xQueueSensors == NULL) {
         ESP_LOGE(TAG, "xQueueSensors was not created correctly");
+        return -1;
     }
 
     xQueueLogger = xQueueCreate(1, sizeof(system_state_t));
-
-    if (xQueueLogger == NULL)
-    {
+    if (xQueueLogger == NULL) {
         ESP_LOGE(TAG, "xQueueLogger was not created correctly");
+        return -1;
     }
 
     create_tasks();
+
+    return 0;
 }
